@@ -1,0 +1,34 @@
+version: "3"
+networks:
+    backend:
+volumes:
+    mysql-database:
+
+services:
+    symphox-app:
+        build: .
+        container_name: symphox-app
+        volumes: 
+            - ".:/var/www/html:cached"
+        ports: 
+            - 8083:80
+        networks: 
+            - backend
+        environment:
+            MYSQL_USER: demouser
+            MYSQL_PASSWORD: "!QAZ2wsx"
+            MYSQL_DATABASE: demo
+    symphox-db:
+        image: mysql:5.7.31
+        container_name: symphox-db
+        ports:
+            - "33306:3306"
+        environment:
+            MYSQL_USER: demouser
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_PASSWORD: "!QAZ2wsx"
+            MYSQL_DATABASE: demo
+        volumes:
+            - mysql-database:/var/lib/mysql
+        networks: 
+            - backend

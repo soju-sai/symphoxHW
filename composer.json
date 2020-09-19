@@ -1,0 +1,14 @@
+{
+    "name": "soju/symphox",
+    "description": "A develop env for symphox hw",
+    "type": "project",
+    "require": {
+        "php" : ">=7.3",
+        "ext-mbstring": "*",
+        "slim/slim": "4.*",
+        "slim/psr7": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}
