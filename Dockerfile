@@ -40,9 +40,7 @@ RUN curl -sS https://getcomposer.org/installer \
   | php \
   && mv composer.phar /usr/bin/composer \
   && composer config -g repos.packagist composer https://packagist.jp \
-  && composer global require hirak/prestissimo \
-    slim/slim:"4.*" \
-    slim/psr7
+  && composer install
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
@@ -52,7 +50,7 @@ WORKDIR ${APACHE_DOCUMENT_ROOT}
 
 USER root
 
-WORKDIR ${APACHE_DOCUMENT_ROOT}
+RUN alias phpunit='./vendor/bin/phpunit'
 
 RUN mkdir /var/log/php/ \
   && chmod 777 -R /var/log/php/

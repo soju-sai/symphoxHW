@@ -6,9 +6,9 @@
         "php" : ">=7.3",
         "ext-mbstring": "*",
         "slim/slim": "4.*",
-        "slim/psr7": "*"
+        "slim/psr7": "*",
     },
     "require-dev": {
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "^9.3"
     }
 }

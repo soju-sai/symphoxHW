@@ -2,12 +2,7 @@
 
 Class Validation {
 
-    public function __contructor () {
-
-    }
-
-    function validate($uri) {
-
+    function validateUri($uri) {
         // validate url param exists or not
         if (strpos($uri, "url=") === false) {
             return false;
@@ -29,8 +24,6 @@ Class Validation {
         if (!filter_var($url, FILTER_VALIDATE_URL)) {
             return false;
         }
-
-        // TODO: checkUrlExists
 
         return $url;
     }
