@@ -18,7 +18,6 @@ RUN apt-get update \
     libpq-dev \
     libzip-dev \
     locales \
-    ssl-cert \
     unzip \
     vim \
     zlib1g-dev \
@@ -36,21 +35,19 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 RUN a2enmod rewrite
 RUN a2enmod headers
 
+COPY . ${APACHE_DOCUMENT_ROOT}
+
 RUN curl -sS https://getcomposer.org/installer \
   | php \
   && mv composer.phar /usr/bin/composer \
-  && composer config -g repos.packagist composer https://packagist.jp \
-  && composer install
-
-ENV COMPOSER_ALLOW_SUPERUSER 1
-
-COPY . ${APACHE_DOCUMENT_ROOT}
+  && composer config -g repos.packagist composer https://packagist.jp
 
 WORKDIR ${APACHE_DOCUMENT_ROOT}
 
-USER root
+COPY composer.json ${APACHE_DOCUMENT_ROOT}
 
-RUN alias phpunit='./vendor/bin/phpunit'
+RUN composer install
 
-RUN mkdir /var/log/php/ \
-  && chmod 777 -R /var/log/php/
+ENV COMPOSER_ALLOW_SUPERUSER 1
+
+COPY php.ini /usr/local/etc/php/

@@ -1,0 +1,17 @@
+CREATE DATABASE IF NOT EXISTS demo;
+        
+USE demo;
+
+CREATE TABLE IF NOT EXISTS url_shorten (
+id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+url tinytext NOT NULL,
+short_code varchar(50) NOT NULL,
+created timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS test_url_shorten (
+id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+url tinytext NOT NULL,
+short_code varchar(50) NOT NULL,
+created timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
