@@ -26,8 +26,8 @@ $app->get('/', function (Request $request, Response $response, $args) {
 
     $form = <<<FORM
         <form action="/create" method="get">
-            <label for="url">請輸入URL於下方文字方塊，將為您產生縮網址：</label><br>
-            <input type="text" id="url" name="url" size="50"><br>
+            <label for="urlToCode">請輸入URL於下方文字方塊，將為您產生縮網址：</label><br>
+            <input type="text" id="urlToCode" name="urlToCode" size="50"><br>
             <input type="submit" value="Submit">
         </form>
         FORM;
@@ -37,14 +37,19 @@ $app->get('/', function (Request $request, Response $response, $args) {
 });
 
 $app->get('/create', function (Request $request, Response $response, $args) {
-
-    // TODO: try catch
     
     $uri = $request->getUri()->getQuery();
 
     $validation = new Validation();
+    $url = $validation->sanitizeUri2Url($uri);
+    if (!$url) {
+        $html = sprintf($GLOBALS['html'], "<p>網址缺少必要參數!</p>");
+        $response->getBody()->write($html);
+        return $response;
+    }
+    
     // Validate if the input uri fits a reasonable uri
-    $url = $validation->validateUri($uri);
+    $url = $validation->validateUrl($url);
     if (!$url) {
         $html = sprintf($GLOBALS['html'], "<p>不是有效的網址!</p>");
         $response->getBody()->write($html);
@@ -60,7 +65,7 @@ $app->get('/create', function (Request $request, Response $response, $args) {
     $db->close(); // close db connection
 
     if (!$shortCode) {
-        $html = sprintf($GLOBALS['html'], "<p>產生短網址錯誤，請再試一次</p>");
+        $html = sprintf($GLOBALS['html'], "<p>產生短網址失敗</p>");
         $response->getBody()->write($html);
         return $response;
     }
@@ -75,14 +80,17 @@ $app->get('/{name}', function (Request $request, Response $response, $args) {
 
     $shortCode = $args['name'];
 
-    // TODO: prevent sql injection
+    $validation = new Validation();
+    if(!$validation->validateShortCode($shortCode)){
+        $html = sprintf($GLOBALS['html'], "不是有效的短網址: $shortCode");
+        $response->getBody()->write($html);
+        return $response;
+    }
 
     $database = new Database();
     $db = $database->getConnection();
 
     $urlCvt = new URLConvertor($db);
-
-    // TODO: validate if the input fit shorten-url format
 
     $url = $urlCvt->redirectURL($shortCode);
 
