@@ -49,8 +49,8 @@ $app->get('/create', function (Request $request, Response $response, $args) {
     }
     
     // Validate if the input uri fits a reasonable uri
-    $url = $validation->validateUrl($url);
-    if (!$url) {
+    $isUrlOk = $validation->validateUrl($url);
+    if (!$isUrlOk) {
         $html = sprintf($GLOBALS['html'], "<p>不是有效的網址!</p>");
         $response->getBody()->write($html);
         return $response;
@@ -70,7 +70,8 @@ $app->get('/create', function (Request $request, Response $response, $args) {
         return $response;
     }
 
-    $html = sprintf($GLOBALS['html'], "<p>產生的短網址: $shortCode</p>");
+    $html = sprintf($GLOBALS['html'], "<p>產生的短網址: $shortCode</p>
+    <button onclick=\"location.href = '/';\" >回到首頁</button>");
     $response->getBody()->write($html);
     return $response;
 });

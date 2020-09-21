@@ -29,7 +29,7 @@ Class Validation {
             return false;
         }
 
-        return $url;
+        return true;
     }
 
     // validate if the short code fit the 6 length long, md5 format string

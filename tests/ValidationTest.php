@@ -19,6 +19,16 @@ class ValidationTest extends TestCase
     }
 
     /**
+     * Test valid url cases
+     * @dataProvider validateUrlProvider
+     */
+    public function testValidatedUrl($url) {
+        $validation = new Validation();
+        $url = $validation->validateUrl($url);
+        $this->assertEquals(true, $url);
+    }
+
+    /**
      * Test invalid url cases
      * @dataProvider invalidatedUrlProvider
      */
@@ -38,6 +48,16 @@ class ValidationTest extends TestCase
         $this->assertEquals(false, $isOK);
     }
 
+    public function validateUrlProvider() {
+        return [
+            ['https://github.com/soju-sai/symphoxHW'],
+            ['http://ottogi.qqbuy.com.tw/?_qrand=41424.8911964699'],
+            ['http://clean0074.pixnet.net/album/photo/35263406-%e7%82%b8'],
+            ['http://www.slimframework.com/docs/v4/objects/request.html'],
+            ['https://cookbiz.jp/job_search/?cook=biz&la=9&pc=148&em=2&gr=54']
+        ];
+    }
+
     public function invalidShortCodeProvider() {
         return [
             ['abc12'],
@@ -46,7 +66,7 @@ class ValidationTest extends TestCase
             ['d6=~12'],
             ['#$%&12'],
             ['"343"b'],
-            ['5f7ed)'],
+            ['5f7ed)']
         ];
     }
 
