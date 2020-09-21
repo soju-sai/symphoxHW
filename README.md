@@ -5,12 +5,17 @@
 - For windows OS 在這裡下載 https://hub.docker.com/editions/community/docker-ce-desktop-windows/
 - For Mac OS 在這裡下載 https://hub.docker.com/editions/community/docker-ce-desktop-mac/
 
+### 下載git
+
+- For windows OS 在這裡下載 https://git-scm.com/download/win
+- For Mac OS 在這裡下載 https://git-scm.com/download/mac
+
 ## 環境建立
 
 - For Windows請打開PowerShell指令工具
 - For Mac請打開Terminal指令工具
 
-以指令前往一個空的路徑, 用來下載作業檔案, ex: cd D:/
+以指令前往一個空的路徑, 用來下載作業檔案, ex: cd ~/Documents
 
 以git指令下載作業檔案
 
@@ -23,6 +28,34 @@ cd symphox
 docker-compose build
 docker-compose up -d
 ```
+
+查詢容器的container id
+
+`docker ps`
+
+輸出範例如下：
+
+```
+CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS              PORTS                                NAMES
+e7b9ce94f174        symphox_symphox-app   "docker-php-entrypoi…"   4 minutes ago       Up 4 minutes        0.0.0.0:8080->80/tcp                 symphox-app
+903c88888c59        symphox_symphox-db    "docker-entrypoint.s…"   9 minutes ago       Up 4 minutes        33060/tcp, 0.0.0.0:13306->3306/tcp   symphox-db
+```
+
+將下方指令的{CONTAINER ID}以symphox_symphox-app的CONTAINER ID替換並執行
+
+`docker exec -it {CONTAINER ID} bash`
+
+進入專案路徑
+
+`cd /var/www/html`
+
+安裝composer packages
+
+`composer install`
+
+安裝完後離開容器
+
+`exit`
 
 ## 測試服務
 
